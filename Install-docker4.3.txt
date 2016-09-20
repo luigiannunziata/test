@@ -1,0 +1,31 @@
+---
+- hosts: oscompute
+  gather_facts: false
+  vars_files:
+  - user-vars.yml
+
+  tasks:
+  - name: Install docker
+    yum: name={{ item }}
+    with_items:
+     - docker
+     - python-docker-py
+     - wget
+
+  - name: Create temporary directory
+    file: path=/tmp/nuage-docker-mon state=directory mode=0755
+
+
+  - name: Download Docker 4.3 in TMP
+    action: shell wget  -P /tmp/nuage-docker-mon/  https://www.dropbox.com/s/tvwnuke1xqeyg6n/nuage-docker-monitor-4.0.3-25.el7.x86_64.rpm
+
+  - name: Install Nuage Docker Monitor 4.3
+    yum: name="/tmp/nuage-docker-mon/nuage-docker-monitor-4.0.3-25.el7.x86_64.rpm"
+    notify:
+     - Restart Nuage Openvswitch
+
+
+  handlers:
+  - name: Restart Nuage Openvswitch
+    service: name=openvswitch state=restarted
+
