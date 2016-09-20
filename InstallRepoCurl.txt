@@ -1,0 +1,40 @@
+---
+- hosts: oscompute
+  gather_facts: false
+  vars_files:
+  - user-vars.yml
+
+  tasks:
+    - name: Download Repository-Centos
+      action: shell curl -L -o /etc/yum.repos.d/centos.repo  https://www.dropbox.com/s/gn1nh93kibskr5l/centos.repo
+
+    - name: Download RPM-GPG-KEY-CentOS-7
+      action: shell curl -L -o /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7  https://www.dropbox.com/s/3q0m1x6e0m677g9/RPM-GPG-KEY-CentOS-7
+
+    - name: Elimina1
+      action: shell yum-config-manager --disable rhel-7-server-optional-rpms
+
+    - name: Elimina2
+      action: shell yum-config-manager --disable rhel-7-server-extras-rpms
+
+    - name: Elimina3
+      action: shell yum-config-manager --disable rhel-7-server-openstack-7.0-rpms
+
+    - name: Elimina4
+      action: shell yum-config-manager --disable rhel-7-server-rpms
+
+    - name: Elimina5
+      action: shell yum-config-manager --disable rhel-7-server-rh-common-rpms
+
+
+
+
+
+
+
+
+
+
+
+
+
