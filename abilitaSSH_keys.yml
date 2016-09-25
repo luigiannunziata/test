@@ -1,0 +1,30 @@
+---
+- hosts: jumpbox
+  gather_facts: false
+  vars_files:
+  - user-vars.yml
+
+  tasks:
+   - name: Copy RSA-key from JumpBox to 11 
+     shell: scp /home/admin/.ssh/authorized_keys root@10.0.0.11:/root/keys
+
+   - name: Copy RSA-key from JumpBox to 12
+     shell: scp /home/admin/.ssh/authorized_keys root@10.0.0.12:/root/keys
+
+ 
+- hosts: oscompute
+  tasks:
+    - name: Append keys to use LinuxMachine
+      shell: cat /root/keys >> /root/.ssh/authorized_keys
+
+
+
+
+
+
+
+
+
+
+
+
